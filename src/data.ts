@@ -5,8 +5,6 @@ export interface ErrorPost {
   code: string;
   language: string;
   tags: string[];
-  likes: number;
-  comments: number;
   author: string;
   date: string;
 }
@@ -27,8 +25,6 @@ export const posts: ErrorPost[] = [
 }`,
     language: 'jsx',
     tags: ['react', 'javascript', 'typescript'],
-    likes: 24,
-    comments: 12,
     author: "dayatdev",
     date: "2 hours ago"
   },
@@ -46,8 +42,6 @@ export const posts: ErrorPost[] = [
 }`,
     language: 'typescript',
     tags: ['nextjs', 'api', 'cors'],
-    likes: 15,
-    comments: 8,
     author: "dayatdev",
     date: "5 hours ago"
   },
@@ -71,8 +65,6 @@ export const posts: ErrorPost[] = [
 }`,
     language: 'jsx',
     tags: ['react', 'hooks', 'state-management'],
-    likes: 32,
-    comments: 15,
     author: "dayatdev",
     date: "1 day ago"
   }

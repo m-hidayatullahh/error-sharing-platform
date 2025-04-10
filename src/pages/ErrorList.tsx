@@ -36,17 +36,8 @@ export function ErrorList({ searchQuery, posts }: ErrorListProps) {
               </span>
             ))}
           </div>
-
           <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
             <div className="flex items-center gap-6">
-              <button className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400">
-                <ThumbsUp size={18} />
-                {post.likes}
-              </button>
-              <button className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400">
-                <MessageSquare size={18} />
-                {post.comments}
-              </button>
               <button className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400">
                 <Share2 size={18} />
                 Share
