@@ -4,6 +4,7 @@ import { Search, PlusCircle, Moon, Sun } from 'lucide-react';
 import { posts } from './data';
 import { ErrorList } from './pages/ErrorList';
 import { ErrorDetail } from './pages/ErrorDetail';
+import { NotFound } from './pages/NotFound';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -14,6 +15,7 @@ function App() {
     }
     return false;
   });
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,16 +63,25 @@ function App() {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
           <input
             type="text"
-            placeholder="Search for errors..."
+            placeholder="Cari Error Kamu..."
             className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              const query = e.target.value;
+              setSearchQuery(query);
+
+              // Jika dikosongkan, otomatis kembali ke halaman utama
+              if (query.trim() === '') {
+                navigate('/');
+              }
+            }}
           />
         </div>
 
         <Routes>
           <Route path="/" element={<ErrorList searchQuery={searchQuery} posts={posts} />} />
-          <Route path="/error/:id" element={<ErrorDetail posts={posts} />} />
+          <Route path="/error/:slug" element={<ErrorDetail posts={posts} />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </div>

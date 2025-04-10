@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { MessageSquare, ThumbsUp, Share2, Copy, Check } from 'lucide-react';
+import { Share2, Copy, Check } from 'lucide-react';
 import Prism from 'prismjs';
 import { ErrorPost } from '../data';
 
@@ -9,24 +9,37 @@ interface ErrorDetailProps {
 }
 
 export function ErrorDetail({ posts }: ErrorDetailProps) {
-  const [copied, setCopied] = useState(false);
-  const { id } = useParams();
-  const post = posts.find(p => p.id === Number(id)) || posts[0];
-  
+  const [copiedCode, setCopiedCode] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const { slug } = useParams();
+  const post = posts.find(p => p.slug === slug) || posts[0];
+
+  const currentUrl = window.location.href;
+  const encodedUrl = encodeURIComponent(currentUrl);
+  const encodedTitle = encodeURIComponent(post.title);
+
   useEffect(() => {
     Prism.highlightAll();
   }, []);
 
   const handleCopyCode = (code: string) => {
     navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(currentUrl);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
   };
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">{post.title}</h1>
-      
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+        {post.title}
+      </h1>
+
       <div className="flex items-center gap-2 mb-6">
         <img
           src={`https://ui-avatars.com/api/?name=${post.author}&background=random`}
@@ -39,9 +52,12 @@ export function ErrorDetail({ posts }: ErrorDetailProps) {
         </div>
       </div>
 
-      <div className="prose dark:prose-invert max-w-none mb-6">
-        <p className="text-gray-600 dark:text-gray-300">{post.description}</p>
-      </div>
+      {post.descriptionBefore && (
+        <div
+          className="text-gray-800 dark:text-gray-100 mb-6"
+          dangerouslySetInnerHTML={{ __html: post.descriptionBefore }}
+        />
+      )}
 
       <div className="relative mb-6">
         <pre className="language-jsx rounded-lg !bg-gray-50 dark:!bg-gray-900">
@@ -49,21 +65,28 @@ export function ErrorDetail({ posts }: ErrorDetailProps) {
         </pre>
         <button
           onClick={() => handleCopyCode(post.code)}
-          className="copy-button dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+          className="absolute top-2 right-2 px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded hover:bg-gray-300 dark:hover:bg-gray-600"
         >
-          {copied ? (
-            <span className="flex items-center gap-1">
+          {copiedCode ? (
+            <span className="flex items-center gap-1 text-green-600 dark:text-green-400">
               <Check size={16} />
               Copied!
             </span>
           ) : (
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 text-gray-700 dark:text-gray-300">
               <Copy size={16} />
               Copy
             </span>
           )}
         </button>
       </div>
+
+      {post.descriptionAfter && (
+        <div
+          className="text-gray-800 dark:text-gray-100 mb-6"
+          dangerouslySetInnerHTML={{ __html: post.descriptionAfter }}
+        />
+      )}
 
       <div className="flex flex-wrap gap-2 mb-6">
         {post.tags.map((tag) => (
@@ -76,11 +99,46 @@ export function ErrorDetail({ posts }: ErrorDetailProps) {
         ))}
       </div>
 
-      <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400">
-        <button className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400">
-          <Share2 size={18} />
-          Share
-        </button>
+      <div className="mt-6">
+        <h2 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
+          Bagikan:
+        </h2>
+        <div className="flex items-center gap-4 text-sm">
+          <a
+            href={`https://wa.me/?text=${encodedTitle}%0A${encodedUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-700 dark:text-gray-300 hover:text-green-600"
+          >
+            WhatsApp
+          </a>
+
+          <a
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-700 dark:text-gray-300 hover:text-blue-600"
+          >
+            Facebook
+          </a>
+
+          <a
+            href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-700 dark:text-gray-300 hover:text-sky-500"
+          >
+            Twitter
+          </a>
+
+          <button
+            onClick={handleCopyLink}
+            className="flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-blue-500"
+          >
+            <Copy size={16} />
+            {copiedLink ? 'Link Copied!' : 'Copy Link'}
+          </button>
+        </div>
       </div>
     </div>
   );
