@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Prism.js Theme Customization */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #383a42;
+  background: none;
+  font-family: 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  tab-size: 2;
+  hyphens: none;
+}
+
+.dark code[class*="language-"],
+.dark pre[class*="language-"] {
+  color: #abb2bf;
+}
+
+pre[class*="language-"] {
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: 0.5em;
+  background: #fafafa;
+}
+
+.dark pre[class*="language-"] {
+  background: #282c34;
+}
+
+:not(pre) > code[class*="language-"] {
+  padding: .1em .3em;
+  border-radius: .3em;
+  background: #fafafa;
+}
+
+.dark :not(pre) > code[class*="language-"] {
+  background: #282c34;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #a0a1a7;
+  font-style: italic;
+}
+
+.dark .token.comment,
+.dark .token.prolog,
+.dark .token.doctype,
+.dark .token.cdata {
+  color: #5c6370;
+}
+
+.token.function {
+  color: #4078f2;
+}
+
+.dark .token.function {
+  color: #61afef;
+}
+
+.token.keyword {
+  color: #a626a4;
+}
+
+.dark .token.keyword {
+  color: #c678dd;
+}
+
+.token.string {
+  color: #50a14f;
+}
+
+.dark .token.string {
+  color: #98c379;
+}
+
+.token.number {
+  color: #986801;
+}
+
+.dark .token.number {
+  color: #d19a66;
+}
+
+.token.boolean {
+  color: #0184bc;
+}
+
+.dark .token.boolean {
+  color: #56b6c2;
+}
+
+.token.operator {
+  color: #383a42;
+}
+
+.dark .token.operator {
+  color: #abb2bf;
+}
+
+.token.punctuation {
+  color: #383a42;
+}
+
+.dark .token.punctuation {
+  color: #abb2bf;
+}
+
+.code-toolbar {
+  position: relative;
+}
+
+.copy-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background: #e5e7eb;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-button:hover {
+  background: #d1d5db;
+}
